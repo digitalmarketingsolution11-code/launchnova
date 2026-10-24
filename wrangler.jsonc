@@ -7,12 +7,8 @@
   "assets": {
     "directory": "./dist/public",
     "binding": "ASSETS",
-    "not_found_handling": "single-page-application"
-  },
-  "vars": {
-    "APP_ID": "your-app-id-here",
-    "APP_SECRET": "your-app-secret-here",
-    "DATABASE_URL": "your-database-url-here"
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
   },
   "observability": {
     "enabled": true
