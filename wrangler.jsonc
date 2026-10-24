@@ -10,6 +10,7 @@
   },
   "vars": {
     "APP_ID": "your-app-id-here",
+    "APP_SECRET": "your-app-secret-here",
     "DATABASE_URL": "your-database-url-here"
   },
   "observability": {
