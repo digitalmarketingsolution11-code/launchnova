@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "launchnova",
-  "main": "dist/boot.js",
+  "main": "api/boot.ts",
   "compatibility_date": "2026-10-24",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
