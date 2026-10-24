@@ -8,6 +8,10 @@
     "directory": "./dist/public",
     "binding": "ASSETS"
   },
+  "vars": {
+    "APP_ID": "your-app-id-here",
+    "DATABASE_URL": "your-database-url-here"
+  },
   "observability": {
     "enabled": true
   }
