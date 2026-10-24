@@ -1,0 +1,410 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.625rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  body {
+    @apply bg-cream-50 text-charcoal font-body antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0c1a2d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c99a2e;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #dbb04e;
+}
+
+/* Selection color */
+::selection {
+  background: rgba(201, 154, 46, 0.3);
+  color: #0c1a2d;
+}
+
+/* Section label style */
+.section-label {
+  @apply text-xs font-semibold tracking-[0.15em] uppercase;
+}
+
+/* Perspective container for 3D effects */
+.perspective-container {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* Starfield canvas */
+.starfield-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* Animation for section reveals */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+/* Stagger delays */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+/* Hide scrollbar */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================
+   MOBILE RESPONSIVE IMPROVEMENTS
+   ============================================ */
+
+/* Mobile hero section */
+@media (max-width: 768px) {
+  .hero-headline {
+    font-size: 2.25rem !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  .hero-subheadline {
+    font-size: 1.5rem !important;
+    line-height: 1.15 !important;
+  }
+
+  .hero-body {
+    font-size: 0.9375rem !important;
+    line-height: 1.6 !important;
+    max-width: 100% !important;
+  }
+
+  .hero-stats {
+    flex-wrap: wrap;
+    gap: 1rem !important;
+  }
+
+  .hero-stats > div {
+    flex: 1 1 45%;
+    min-width: 0;
+  }
+
+  .hero-stats .stat-number {
+    font-size: 1.75rem !important;
+  }
+
+  .hero-stats .stat-label {
+    font-size: 0.6875rem !important;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-buttons a {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    padding: 0.875rem 1.5rem !important;
+    font-size: 0.875rem !important;
+  }
+
+  .section-padding {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+
+  .section-headline {
+    font-size: 1.75rem !important;
+    line-height: 1.15 !important;
+  }
+
+  .section-subheadline {
+    font-size: 1rem !important;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .card-grid-2 {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .card-grid-3 {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .card-grid-4 {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.75rem !important;
+  }
+
+  .service-card {
+    padding: 1.5rem !important;
+  }
+
+  .pricing-card {
+    padding: 1.5rem !important;
+  }
+
+  .pricing-card .price {
+    font-size: 2rem !important;
+  }
+
+  .testimonial-card {
+    padding: 1.25rem !important;
+  }
+
+  .portfolio-card img {
+    aspect-ratio: 16 / 9 !important;
+  }
+
+  .team-card img {
+    aspect-ratio: 1 / 1 !important;
+  }
+
+  .process-step-circle {
+    width: 3.5rem !important;
+    height: 3.5rem !important;
+  }
+
+  .process-step-number {
+    font-size: 1.25rem !important;
+  }
+
+  .stats-grid-4 {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  .stats-grid-4 .stat-number {
+    font-size: 2rem !important;
+  }
+
+  .cta-headline {
+    font-size: 1.75rem !important;
+  }
+
+  .cta-body {
+    font-size: 0.9375rem !important;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+    text-align: center;
+  }
+
+  .footer-grid .social-icons {
+    justify-content: center;
+  }
+
+  .about-ceo-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .about-ceo-grid img {
+    max-width: 280px !important;
+    margin: 0 auto;
+    aspect-ratio: 3 / 4 !important;
+  }
+
+  .about-ceo-badge {
+    right: 10% !important;
+    bottom: -0.5rem !important;
+  }
+
+  .team-featured-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .team-featured-grid img {
+    aspect-ratio: 4 / 3 !important;
+    max-height: 280px !important;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .contact-info-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.75rem !important;
+  }
+
+  .contact-info-grid > a,
+  .contact-info-grid > div {
+    padding: 1rem !important;
+  }
+
+  .faq-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .timeline-grid {
+    grid-template-columns: 1fr 1fr 1fr !important;
+    gap: 0.75rem !important;
+  }
+
+  .timeline-grid .timeline-year {
+    width: 3rem !important;
+    height: 3rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  .timeline-grid .timeline-title {
+    font-size: 0.75rem !important;
+  }
+
+  .timeline-grid .timeline-desc {
+    font-size: 0.625rem !important;
+  }
+
+  .values-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .trusted-logos {
+    gap: 1rem !important;
+    flex-wrap: wrap !important;
+  }
+
+  .trusted-logos span {
+    font-size: 0.625rem !important;
+  }
+
+  .why-choose-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .process-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  .process-grid .process-connector {
+    display: none !important;
+  }
+
+  .hero-trust-badges-mobile {
+    display: flex !important;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .hero-trust-badges-mobile .trust-badge {
+    flex-shrink: 0;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .card-grid-3 {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .stats-grid-4 {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .about-ceo-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
