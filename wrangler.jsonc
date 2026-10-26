@@ -1,11 +1,11 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "launchnova",
-  "main": "src/index.ts",
+  "main": "dist/boot.js",
   "compatibility_date": "2026-10-26",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
-    "directory": "dist",
+    "directory": "dist/public",
     "binding": "ASSETS",
     "not_found_handling": "single-page-application"
   },
