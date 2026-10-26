@@ -93,3 +93,201 @@ export default function Testimonials() {
           </div>
         </div>
       </section>
+
+      {/* Video Testimonials */}
+      <section className="bg-navy-900 py-20 lg:py-28">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <SectionReveal className="text-center mb-16">
+            <span className="section-label text-gold-400 mb-4 block">VIDEO STORIES</span>
+            <h2 className="font-heading font-semibold text-3xl lg:text-4xl text-cream-50">
+              Hear From Our Clients
+            </h2>
+          </SectionReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {videoTestimonials.map((vt, i) => (
+              <SectionReveal key={i} className={`stagger-${i + 1}`}>
+                <div className="bg-navy-800 rounded-2xl overflow-hidden group cursor-pointer">
+                  <div className="aspect-video bg-navy-700 relative flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full bg-gold-500/20 flex items-center justify-center group-hover:bg-gold-500/30 transition-colors">
+                      <Play className="w-6 h-6 text-gold-500 ml-1" />
+                    </div>
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <p className="text-cream-50 font-heading font-semibold text-sm">"{vt.quote}"</p>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <p className="font-heading font-semibold text-cream-50">{vt.name}</p>
+                    <p className="text-sm text-cream-100">{vt.role}</p>
+                    <span className="text-xs text-gold-500 uppercase tracking-wider mt-2 block">{vt.service}</span>
+                  </div>
+                </div>
+              </SectionReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Crowdfunding Testimonials */}
+      <section className="bg-cream-50 py-20 lg:py-28">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <SectionReveal className="mb-12">
+            <span className="section-label text-slate mb-4 block">CROWDFUNDING</span>
+            <h2 className="font-heading font-semibold text-3xl text-charcoal">Campaigns That Soared</h2>
+          </SectionReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {crowdfundingTestimonials.map((t, i) => (
+              <SectionReveal key={i} className={`stagger-${(i % 3) + 1}`}>
+                <div className="bg-white border border-cream-100 rounded-xl p-6 h-full">
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(5)].map((_, j) => (
+                      <Star key={j} className="w-4 h-4 fill-gold-500 text-gold-500" />
+                    ))}
+                  </div>
+                  <p className="text-charcoal italic mb-6 text-sm leading-relaxed">"{t.quote}"</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-navy-800 flex items-center justify-center">
+                      <span className="text-gold-500 font-heading font-bold text-sm">
+                        {t.name.split(' ').map(n => n[0]).join('')}
+                      </span>
+                    </div>
+                    <div>
+                      <p className="font-heading font-semibold text-charcoal text-sm">{t.name}</p>
+                      <p className="text-xs text-slate">{t.role}</p>
+                    </div>
+                  </div>
+                  <span className="inline-block mt-4 text-xs font-semibold text-gold-500 bg-gold-500/10 px-3 py-1 rounded-full">
+                    {t.result}
+                  </span>
+                </div>
+              </SectionReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Book Marketing Testimonials */}
+      <section className="bg-navy-800 py-20 lg:py-28">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <SectionReveal className="mb-12">
+            <span className="section-label text-gold-400 mb-4 block">BOOK MARKETING</span>
+            <h2 className="font-heading font-semibold text-3xl text-cream-50">Books That Found Their Readers</h2>
+          </SectionReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {bookTestimonials.map((t, i) => (
+              <SectionReveal key={i} className={`stagger-${(i % 3) + 1}`}>
+                <div className="bg-navy-700 rounded-xl p-6 h-full">
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(5)].map((_, j) => (
+                      <Star key={j} className="w-4 h-4 fill-gold-500 text-gold-500" />
+                    ))}
+                  </div>
+                  <p className="text-cream-50 italic mb-6 text-sm leading-relaxed">"{t.quote}"</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-gold-500 flex items-center justify-center">
+                      <span className="text-navy-900 font-heading font-bold text-sm">
+                        {t.name.split(' ').map(n => n[0]).join('')}
+                      </span>
+                    </div>
+                    <div>
+                      <p className="font-heading font-semibold text-cream-50 text-sm">{t.name}</p>
+                      <p className="text-xs text-cream-100">{t.role}</p>
+                    </div>
+                  </div>
+                  <span className="inline-block mt-4 text-xs font-semibold text-gold-500 bg-gold-500/10 px-3 py-1 rounded-full">
+                    {t.result}
+                  </span>
+                </div>
+              </SectionReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Resume Writing Testimonials */}
+      <section className="bg-cream-50 py-20 lg:py-28">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <SectionReveal className="mb-12">
+            <span className="section-label text-slate mb-4 block">RESUME WRITING</span>
+            <h2 className="font-heading font-semibold text-3xl text-charcoal">Careers Accelerated</h2>
+          </SectionReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {resumeTestimonials.map((t, i) => (
+              <SectionReveal key={i} className={`stagger-${(i % 3) + 1}`}>
+                <div className="bg-white border border-cream-100 rounded-xl p-6 h-full">
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(5)].map((_, j) => (
+                      <Star key={j} className="w-4 h-4 fill-gold-500 text-gold-500" />
+                    ))}
+                  </div>
+                  <p className="text-charcoal italic mb-6 text-sm leading-relaxed">"{t.quote}"</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-navy-800 flex items-center justify-center">
+                      <span className="text-gold-500 font-heading font-bold text-sm">
+                        {t.name.split(' ').map(n => n[0]).join('')}
+                      </span>
+                    </div>
+                    <div>
+                      <p className="font-heading font-semibold text-charcoal text-sm">{t.name}</p>
+                      <p className="text-xs text-slate">{t.role}</p>
+                    </div>
+                  </div>
+                  <span className="inline-block mt-4 text-xs font-semibold text-gold-500 bg-gold-500/10 px-3 py-1 rounded-full">
+                    {t.result}
+                  </span>
+                </div>
+              </SectionReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Results Summary */}
+      <section className="bg-gold-500 py-20">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+            <SectionReveal>
+              <span className="font-heading font-bold text-5xl lg:text-6xl text-navy-900 block">$50M+</span>
+              <p className="text-navy-800 font-medium mt-2">Total Funds Raised</p>
+            </SectionReveal>
+            <SectionReveal className="stagger-1">
+              <span className="font-heading font-bold text-5xl lg:text-6xl text-navy-900 block">500+</span>
+              <p className="text-navy-800 font-medium mt-2">Books Marketed</p>
+            </SectionReveal>
+            <SectionReveal className="stagger-2">
+              <span className="font-heading font-bold text-5xl lg:text-6xl text-navy-900 block">10,000+</span>
+              <p className="text-navy-800 font-medium mt-2">Resumes Delivered</p>
+            </SectionReveal>
+            <SectionReveal className="stagger-3">
+              <span className="font-heading font-bold text-5xl lg:text-6xl text-navy-900 block">95%</span>
+              <p className="text-navy-800 font-medium mt-2">Client Satisfaction</p>
+            </SectionReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-navy-900 py-20">
+        <div className="max-w-4xl mx-auto px-6 lg:px-12 text-center">
+          <SectionReveal>
+            <h2 className="font-heading font-semibold text-3xl lg:text-4xl text-cream-50 mb-4">
+              Join Our Success Stories
+            </h2>
+            <p className="text-lg text-cream-100 mb-8">
+              Whether you're launching a product, marketing a book, or advancing your career — we're here to help you succeed.
+            </p>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-gold-500 text-navy-900 font-semibold rounded-full hover:bg-gold-400 transition-colors"
+            >
+              Start Your Journey <ArrowRight className="w-4 h-4" />
+            </Link>
+          </SectionReveal>
+        </div>
+      </section>
+    </>
+  )
+}
