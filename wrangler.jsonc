@@ -10,9 +10,9 @@
     "not_found_handling": "single-page-application"
   },
   "vars": {
-    "APP_ID": "REPLACE_WITH_YOUR_REAL_APP_ID",
-    "APP_SECRET": "REPLACE_WITH_YOUR_REAL_APP_SECRET",
-    "DATABASE_URL": "REPLACE_WITH_YOUR_REAL_DATABASE_URL"
+    "APP_ID": "launchnova",
+    "APP_SECRET": "k9x2m7n4q1w6z8j3f5a0s3d6c9v2b5m8",
+    "DATABASE_URL": "mysql://placeholder:placeholder@placeholder:3306/placeholder"
   },
   "observability": {
     "enabled": true
