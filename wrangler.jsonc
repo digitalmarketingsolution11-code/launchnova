@@ -9,6 +9,11 @@
     "binding": "ASSETS",
     "not_found_handling": "single-page-application"
   },
+  "vars": {
+    "APP_ID": "REPLACE_WITH_YOUR_REAL_APP_ID",
+    "APP_SECRET": "REPLACE_WITH_YOUR_REAL_APP_SECRET",
+    "DATABASE_URL": "REPLACE_WITH_YOUR_REAL_DATABASE_URL"
+  },
   "observability": {
     "enabled": true
   }
