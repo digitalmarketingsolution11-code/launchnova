@@ -26,16 +26,13 @@ import {
   Play,
   Globe,
   MessageCircle,
+  GitBranch,
+  MapPin,
+  Archive,
   BookOpen,
   Users,
-  Send,
-  Coins,
-  Shield,
-  Smartphone,
-  Lock,
 } from 'lucide-react'
-import { motion, useInView } from 'framer-motion'
-import { useRef, useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 function SectionReveal({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -76,7 +73,8 @@ const servicesData: Record<string, {
   overview: { headline: string; body: string; secondary: string; stats: { number: string; label: string }[] }
   features: { icon: React.ReactNode; title: string; description: string }[]
   platforms?: { name: string; description: string; metric: string }[]
-  caseStudies: { category: string; title: string; author?: string; stats: { number: string; label: string }[]; quote: string; quotee: string; image: string }[]
+  packages: { name: string; price: string; period: string; featured: boolean; features: string[]; cta: string }[]
+  caseStudies: { category: string; title: string; author?: string; stats: { number: string; label: string }[]; quote: string; quotee: string }[]
   faq: { question: string; answer: string }[]
   portfolio: { image: string; title: string; category: string; description: string; metrics: { label: string; value: string }[] }[]
 }> = {
@@ -111,9 +109,14 @@ const servicesData: Record<string, {
       { name: 'GoFundMe', description: 'Personal and cause-based crowdfunding campaigns.', metric: '$3M+ Raised' },
       { name: 'Wefunder', description: 'Equity crowdfunding for startups and small businesses.', metric: '$2M+ Raised' },
     ],
+    packages: [
+      { name: 'Starter', price: '$500', period: '/campaign', featured: false, features: ['Campaign strategy session', 'Landing page setup', 'Basic video script', 'Email template kit', 'Weekly check-ins'], cta: 'Get Started' },
+      { name: 'Professional', price: '$1,000', period: '/campaign', featured: true, features: ['Everything in Starter, plus:', 'Full campaign video production', 'Professional copywriting', 'Pre-launch marketing (30 days)', 'PR outreach (10 outlets)', 'Daily campaign management', 'Stretch goal strategy'], cta: 'Get Started' },
+      { name: 'Premium', price: '$2,000+', period: 'Custom', featured: false, features: ['Everything in Professional, plus:', 'Dedicated project manager', 'Multi-platform strategy', 'Influencer partnerships', 'Paid advertising management', 'Post-campaign fulfillment support', 'Lifetime strategy consulting'], cta: 'Contact Us' },
+    ],
     caseStudies: [
-      { category: 'TECHNOLOGY', title: 'LumiSmart: The AI Desk Lamp', stats: [{ number: '$485K', label: 'Raised' }, { number: '970%', label: 'of Goal' }, { number: '12,400', label: 'Backers' }], quote: "LaunchNova's pre-launch strategy built us a list of 8,000 eager backers. We hit our goal in 4 hours.", quotee: 'Alex R., Founder', image: '/images/real-client-1.jpg' },
-      { category: 'TABLETOP GAMES', title: 'Kingdoms of Aetheria', stats: [{ number: '$1.2M', label: 'Raised' }, { number: '2,400%', label: 'of Goal' }, { number: '28,700', label: 'Backers' }], quote: "The campaign video LaunchNova produced got 2 million views. Our biggest problem was keeping up with demand!", quotee: 'Maya L., Game Designer', image: '/images/real-client-2.jpg' },
+      { category: 'TECHNOLOGY', title: 'LumiSmart: The AI Desk Lamp', stats: [{ number: '$485K', label: 'Raised' }, { number: '970%', label: 'of Goal' }, { number: '12,400', label: 'Backers' }], quote: "LaunchNova's pre-launch strategy built us a list of 8,000 eager backers. We hit our goal in 4 hours.", quotee: 'Alex R., Founder' },
+      { category: 'TABLETOP GAMES', title: 'Kingdoms of Aetheria', stats: [{ number: '$1.2M', label: 'Raised' }, { number: '2,400%', label: 'of Goal' }, { number: '28,700', label: 'Backers' }], quote: "The campaign video LaunchNova produced got 2 million views. Our biggest problem was keeping up with demand!", quotee: 'Maya L., Game Designer' },
     ],
     faq: [
       { question: 'How long does a typical crowdfunding campaign take?', answer: 'From initial strategy to campaign close, most projects run 60-90 days. We recommend 30 days of pre-launch preparation followed by a 30-45 day live campaign.' },
@@ -156,14 +159,19 @@ const servicesData: Record<string, {
       { icon: <Target className="w-12 h-12" />, title: 'Paid Advertising', description: "Strategic Amazon Ads, Facebook Ads, and BookBub campaigns that put your book in front of readers who are actively looking for their next read. Every dollar is optimized for maximum ROI." },
       { icon: <Mail className="w-12 h-12" />, title: 'Email Marketing', description: "Build and nurture your reader list with compelling newsletters, launch announcements, and automated sequences that turn casual browsers into loyal fans and repeat buyers." },
     ],
+    packages: [
+      { name: 'Book Launch', price: '$500', period: '/launch', featured: false, features: ['Pre-launch strategy session', 'Amazon listing optimization', 'Press release distribution', '20 book blogger outreach', 'Social media launch kit', '2-week post-launch support'], cta: 'Get Started' },
+      { name: 'Bestseller Campaign', price: '$1,000', period: '/campaign', featured: true, features: ['Everything in Book Launch, plus:', 'Advanced Amazon Ads management', '50 book blogger + media outreach', 'BookBub Featured Deal application', 'Author website audit + recommendations', 'Email marketing setup', '60 days of ongoing support'], cta: 'Get Started' },
+      { name: 'Author Empire', price: '$2,000+', period: 'Custom', featured: false, features: ['Everything in Bestseller, plus:', 'Ongoing monthly marketing management', 'Multi-book cross-promotion strategy', 'Advanced paid advertising ($500 ad spend included)', 'Monthly analytics reports', 'Priority support & strategy calls', 'Author brand development'], cta: 'Contact Us' },
+    ],
     caseStudies: [
-      { category: 'FICTION', title: 'The Last Librarian', author: 'By Elena Vasquez', stats: [{ number: '47,000', label: 'Copies' }, { number: '#1 Amazon', label: 'Bestseller' }, { number: '4.8★', label: 'Rating' }], quote: "I was ready to give up on my novel. LaunchNova not only got it noticed — they made it a bestseller. I'm now a full-time author.", quotee: 'Elena V.', image: '/images/real-client-5.jpg' },
-      { category: 'NON-FICTION', title: 'The Mindful Entrepreneur', author: 'By David Chen', stats: [{ number: '82,000', label: 'Copies' }, { number: 'WSJ Bestseller', label: 'Status' }, { number: '4.6★', label: 'Rating' }], quote: "The Amazon optimization alone tripled my daily sales. The PR campaign got me on three podcasts and a Forbes feature.", quotee: 'David C.', image: '/images/real-client-3.jpg' },
+      { category: 'FICTION', title: 'The Last Librarian', author: 'By Elena Vasquez', stats: [{ number: '47,000', label: 'Copies' }, { number: '#1 Amazon', label: 'Bestseller' }, { number: '4.8★', label: 'Rating' }], quote: "I was ready to give up on my novel. LaunchNova not only got it noticed — they made it a bestseller. I'm now a full-time author.", quotee: 'Elena V.' },
+      { category: 'NON-FICTION', title: 'The Mindful Entrepreneur', author: 'By David Chen', stats: [{ number: '82,000', label: 'Copies' }, { number: 'WSJ Bestseller', label: 'Status' }, { number: '4.6★', label: 'Rating' }], quote: "The Amazon optimization alone tripled my daily sales. The PR campaign got me on three podcasts and a Forbes feature.", quotee: 'David C.' },
     ],
     faq: [
       { question: 'When should I start marketing my book?', answer: 'Ideally, 3-6 months before your launch date. This gives us time to build your audience, secure reviews, and create pre-launch momentum. For backlist titles, we can start immediately.' },
       { question: 'Do you work with self-published authors?', answer: "Absolutely! About 70% of our clients are indie or self-published authors. Our strategies work regardless of your publishing path." },
-      { question: 'How do I get started?', answer: 'Simply contact us through the form below or email us directly. We will schedule a free consultation to understand your goals and provide a custom proposal tailored to your needs.' },
+      { question: "What's the difference between the packages?", answer: 'Book Launch is perfect for first-time authors focused on a strong debut. Bestseller Campaign adds ongoing advertising and broader outreach. Author Empire is for serious authors building a long-term career.' },
       { question: 'How do you measure success?', answer: "We track sales, Amazon ranking, reviews, media mentions, email list growth, and ROI on ad spend. You'll receive regular reports showing exactly how your investment is performing." },
       { question: 'Can you guarantee bestseller status?', answer: "While we can't guarantee specific rankings (no ethical marketer can), our clients achieve bestseller status 87% of the time when following our full Bestseller Campaign." },
     ],
@@ -201,9 +209,14 @@ const servicesData: Record<string, {
       { icon: <User className="w-12 h-12" />, title: 'LinkedIn Optimization', description: "Your LinkedIn profile is your digital resume. We optimize your headline, summary, experience sections, and skills to attract recruiters and complement your resume strategy." },
       { icon: <FileText className="w-12 h-12" />, title: 'Cover Letters', description: "A great cover letter can be the difference between an interview and a rejection. We craft compelling, personalized cover letters that tell your story and demonstrate your fit for the role." },
     ],
+    packages: [
+      { name: 'Professional Resume', price: '$500', period: 'one-time', featured: false, features: ['ATS-optimized resume', 'Professional rewrite', '2 rounds of revisions', '5-day delivery', 'Word + PDF formats', '60-day interview guarantee'], cta: 'Get Started' },
+      { name: 'Career Accelerator', price: '$1,000', period: 'one-time', featured: true, features: ['Everything in Professional, plus:', 'LinkedIn profile optimization', 'Custom cover letter', '3 rounds of revisions', '3-day delivery', 'Salary negotiation guide', '60-day interview guarantee'], cta: 'Get Started' },
+      { name: 'Executive Suite', price: '$2,000+', period: 'Custom', featured: false, features: ['Everything in Career, plus:', 'Executive-level branding', 'Thank you letter template', 'Unlimited revisions', '2-day delivery', '1-hour strategy call', 'Job search action plan', '90-day interview guarantee'], cta: 'Get Started' },
+    ],
     caseStudies: [
-      { category: 'CAREER CHANGE', title: 'Michael T., Marketing Manager', stats: [{ number: '5', label: 'Interviews' }, { number: '2', label: 'Weeks' }, { number: 'Senior', label: 'Role' }], quote: "I applied to 50 jobs with my old resume and got zero responses. After LaunchNova rewrote it, I got 5 interviews in the first two weeks.", quotee: 'Michael T.', image: '/images/real-client-4.jpg' },
-      { category: 'EXECUTIVE', title: 'Robert H., CTO', stats: [{ number: '2', label: 'C-Level Offers' }, { number: '30', label: 'Days' }, { number: 'Fortune 500', label: 'Company' }], quote: "The executive resume they created positioned me as a strategic leader, not just a manager. I received two C-level offers within a month.", quotee: 'Robert H.', image: '/images/real-client-6.jpg' },
+      { category: 'CAREER CHANGE', title: 'Michael T., Marketing Manager', stats: [{ number: '5', label: 'Interviews' }, { number: '2', label: 'Weeks' }, { number: 'Senior', label: 'Role' }], quote: "I applied to 50 jobs with my old resume and got zero responses. After LaunchNova rewrote it, I got 5 interviews in the first two weeks.", quotee: 'Michael T.' },
+      { category: 'EXECUTIVE', title: 'Robert H., CTO', stats: [{ number: '2', label: 'C-Level Offers' }, { number: '30', label: 'Days' }, { number: 'Fortune 500', label: 'Company' }], quote: "The executive resume they created positioned me as a strategic leader, not just a manager. I received two C-level offers within a month.", quotee: 'Robert H.' },
     ],
     faq: [
       { question: 'How long does the resume writing process take?', answer: 'Standard delivery is 5 business days for the Professional package, 3 days for Career Accelerator, and 2 days for Executive Suite. Rush delivery is available for an additional fee.' },
@@ -246,15 +259,20 @@ const servicesData: Record<string, {
       { icon: <Play className="w-12 h-12" />, title: 'Social Media Marketing', description: 'Build your brand on TikTok, Instagram, and YouTube with content strategies designed for musicians. We create viral-ready campaigns that turn casual listeners into dedicated fans.' },
       { icon: <TrendingUp className="w-12 h-12" />, title: 'Analytics & Reporting', description: 'Track your growth with detailed analytics dashboards. Monitor streams, playlist additions, audience demographics, and engagement metrics to refine your promotion strategy over time.' },
     ],
+    packages: [
+      { name: 'Emerging Artist', price: '$500', period: '/campaign', featured: false, features: ['Playlist pitching (20 playlists)', 'Social media launch kit', 'Basic press release', '2-week promotion period', 'Stream analytics report'], cta: 'Get Started' },
+      { name: 'Professional', price: '$1,000', period: '/campaign', featured: true, features: ['Everything in Emerging, plus:', 'Playlist pitching (50 playlists)', 'Radio station outreach', 'Music blog pitching (15 outlets)', 'TikTok influencer partnerships', '4-week promotion period', 'Weekly analytics reports'], cta: 'Get Started' },
+      { name: 'Label Ready', price: '$2,000+', period: 'Custom', featured: false, features: ['Everything in Professional, plus:', 'Unlimited playlist pitching', 'Major radio promotion', 'Full PR campaign (30 outlets)', 'Social media management (30 days)', 'Video content strategy', 'Monthly strategy calls'], cta: 'Contact Us' },
+    ],
     caseStudies: [
-      { category: 'AFROBEATS', title: 'Tunde Vibes — "Elevation"', stats: [{ number: '15M', label: 'Streams' }, { number: '45', label: 'Playlists' }, { number: '4.8★', label: 'Rating' }], quote: 'LaunchNova got my single on 3 major Spotify editorial playlists. I went from 1,000 monthly listeners to 500,000 in 6 weeks.', quotee: 'Tunde V., Artist', image: '/images/real-client-10.jpg' },
-      { category: 'HIP HOP', title: 'Lyrical Storm — "City Lights"', stats: [{ number: '8M', label: 'Streams' }, { number: '28', label: 'Playlists' }, { number: '#12', label: 'iTunes' }], quote: 'The TikTok campaign they created generated 2.3 million views. My Spotify streams tripled in the first month.', quotee: 'Marcus J., Rapper', image: '/images/real-client-7.jpg' },
+      { category: 'AFROBEATS', title: 'Tunde Vibes — "Elevation"', stats: [{ number: '15M', label: 'Streams' }, { number: '45', label: 'Playlists' }, { number: '4.8★', label: 'Rating' }], quote: 'LaunchNova got my single on 3 major Spotify editorial playlists. I went from 1,000 monthly listeners to 500,000 in 6 weeks.', quotee: 'Tunde V., Artist' },
+      { category: 'HIP HOP', title: 'Lyrical Storm — "City Lights"', stats: [{ number: '8M', label: 'Streams' }, { number: '28', label: 'Playlists' }, { number: '#12', label: 'iTunes' }], quote: 'The TikTok campaign they created generated 2.3 million views. My Spotify streams tripled in the first month.', quotee: 'Marcus J., Rapper' },
     ],
     faq: [
       { question: 'How long does a music promotion campaign take?', answer: 'Most campaigns run 4-6 weeks. We recommend starting 2 weeks before your release date to build pre-save momentum, then continuing for 4 weeks post-release.' },
       { question: 'Do you guarantee playlist placements?', answer: 'While we cannot guarantee specific playlists (no ethical promoter can), our pitching strategy achieves an average 60% placement rate. We pitch to curators who actively seek music in your genre.' },
       { question: 'What genres do you work with?', answer: 'We work with all genres — Afrobeats, Hip Hop, R&B, Pop, EDM, Gospel, Jazz, and more. Our team matches your music with curators who specialize in your sound.' },
-      { question: 'Can you help with music video promotion?', answer: 'Yes! We offer video promotion strategy, YouTube optimization, and placement on music video platforms as part of our music promotion services. Contact us for a custom quote.' },
+      { question: 'Can you help with music video promotion?', answer: 'Yes! Our Professional and Label Ready packages include video promotion strategy, YouTube optimization, and placement on music video platforms.' },
       { question: 'How do you measure success?', answer: 'We track streams, playlist additions, follower growth, save rates, and audience demographics. You will receive weekly reports showing exactly how your campaign is performing.' },
     ],
     portfolio: [
@@ -291,9 +309,14 @@ const servicesData: Record<string, {
       { icon: <FileText className="w-12 h-12" />, title: 'Business & Marketing', description: 'Translate marketing materials, product descriptions, contracts, and corporate communications. We ensure your brand voice remains consistent across all languages.' },
       { icon: <Users className="w-12 h-12" />, title: 'Interpretation Services', description: 'Professional simultaneous and consecutive interpretation for conferences, meetings, and events. Available in-person and remotely via video conferencing platforms.' },
     ],
+    packages: [
+      { name: 'Basic', price: '$500', period: '/project', featured: false, features: ['Up to 5,000 words', '1 language pair', 'Standard turnaround (5 days)', 'Basic proofreading', 'Digital delivery'], cta: 'Get Started' },
+      { name: 'Professional', price: '$1,000', period: '/project', featured: true, features: ['Everything in Basic, plus:', 'Up to 15,000 words', '3 language pairs', 'Expedited delivery (3 days)', 'Native speaker review', 'Glossary creation', 'SEO optimization'], cta: 'Get Started' },
+      { name: 'Enterprise', price: '$2,000+', period: 'Custom', featured: false, features: ['Everything in Professional, plus:', 'Unlimited word count', '10+ language pairs', 'Rush delivery available', 'Dedicated project manager', 'Certified & notarized', 'Ongoing support'], cta: 'Contact Us' },
+    ],
     caseStudies: [
-      { category: 'PUBLISHING', title: 'The African Legacy — Book Translation', stats: [{ number: '3', label: 'Languages' }, { number: '85K', label: 'Words' }, { number: '4.7★', label: 'Rating' }], quote: 'LaunchNova translated my novel into French, Spanish, and German while preserving every nuance of the original. Sales increased 300% in European markets.', quotee: 'Chioma E., Author', image: '/images/real-client-8.jpg' },
-      { category: 'BUSINESS', title: 'TechNova Solutions — Website Localization', stats: [{ number: '12', label: 'Languages' }, { number: '45K', label: 'Words' }, { number: '200%', label: 'Traffic' }], quote: 'Localizing our website for 12 markets seemed impossible. LaunchNova handled everything — translation, cultural adaptation, and even SEO keywords. Our international traffic doubled.', quotee: 'James L., CEO', image: '/images/real-client-9.jpg' },
+      { category: 'PUBLISHING', title: 'The African Legacy — Book Translation', stats: [{ number: '3', label: 'Languages' }, { number: '85K', label: 'Words' }, { number: '4.7★', label: 'Rating' }], quote: 'LaunchNova translated my novel into French, Spanish, and German while preserving every nuance of the original. Sales increased 300% in European markets.', quotee: 'Chioma E., Author' },
+      { category: 'BUSINESS', title: 'TechNova Solutions — Website Localization', stats: [{ number: '12', label: 'Languages' }, { number: '45K', label: 'Words' }, { number: '200%', label: 'Traffic' }], quote: 'Localizing our website for 12 markets seemed impossible. LaunchNova handled everything — translation, cultural adaptation, and even SEO keywords. Our international traffic doubled.', quotee: 'James L., CEO' },
     ],
     faq: [
       { question: 'What languages do you support?', answer: 'We support 50+ languages including major world languages (English, Spanish, French, German, Chinese, Japanese, Arabic, Portuguese, Russian, Hindi) and many regional languages. Contact us for specific language availability.' },
@@ -311,55 +334,54 @@ const servicesData: Record<string, {
       { image: '/images/trans-client-6.jpg', title: 'Metro Bank — Financial Reports', category: 'FINANCE', description: 'A multinational bank needing quarterly reports translated for stakeholders in 4 countries. We delivered precise financial translations with industry terminology.', metrics: [{ label: 'Languages', value: '4' }, { label: 'Pages', value: '200+' }, { label: 'Turnaround', value: '3 days' }] },
     ],
   },
-  'telegram-crypto': {
-    title: 'Telegram / Crypto',
-    tagline: 'Build communities, grow projects, dominate Web3',
+  'genealogy': {
+    title: 'Genealogy',
+    tagline: 'Discover your roots, preserve your legacy, build your family tree',
     bgColor: 'bg-navy-800',
     textColor: 'text-cream-50',
     labelColor: 'text-gold-400',
-    image: '/images/telegram-crypto-visual.jpg',
+    image: '/images/genealogy-visual.jpg',
     overview: {
-      headline: 'Your Web3 Growth Partner',
-      body: 'The crypto and Web3 space moves fast. We help blockchain projects, NFT collections, DeFi platforms, and crypto startups build engaged Telegram communities, execute token launches, and create viral marketing campaigns that drive real adoption.',
-      secondary: 'From community moderation and bot automation to influencer partnerships and airdrop campaigns, our Web3 marketing team knows what works in the decentralized economy.',
+      headline: 'Uncover the Story of Your Family',
+      body: 'Every family has a story waiting to be discovered. Our genealogy service combines historical research, DNA analysis guidance, and professional family tree building to help you trace your lineage and preserve your heritage for generations to come.',
+      secondary: 'Whether you are looking to trace your African roots, verify family legends, or create a comprehensive family history book, our research specialists guide you every step of the way.',
       stats: [
-        { number: '150+', label: 'Communities Grown' },
-        { number: '2M+', label: 'Telegram Members' },
-        { number: '98%', label: 'Retention Rate' },
+        { number: '5,000+', label: 'Family Trees Built' },
+        { number: '200+', label: 'Years Traced' },
+        { number: '98%', label: 'Satisfaction' },
       ],
     },
     features: [
-      { icon: <Send className="w-12 h-12" />, title: 'Telegram Community Building', description: 'We build, grow, and manage thriving Telegram communities for crypto projects. From group setup and bot integration to daily engagement and moderation, we create spaces where holders become believers.' },
-      { icon: <Coins className="w-12 h-12" />, title: 'Token Launch Marketing', description: 'Pre-launch hype, IDO/ICO promotion, DEX listing campaigns, and post-launch community retention. We have helped projects raise millions and achieve sustainable trading volume.' },
-      { icon: <Smartphone className="w-12 h-12" />, title: 'Bot Automation & Tools', description: 'Custom Telegram bots for airdrops, staking dashboards, price alerts, anti-spam, and wallet verification. We build the infrastructure that keeps your community engaged 24/7.' },
-      { icon: <TrendingUp className="w-12 h-12" />, title: 'Influencer & KOL Marketing', description: 'Access our network of 500+ crypto influencers, YouTubers, Twitter KOLs, and Telegram channel owners. We match your project with voices that reach your ideal investors.' },
-      { icon: <Shield className="w-12 h-12" />, title: 'Community Security & Scam Prevention', description: 'Protect your community from scammers, fake accounts, and phishing attacks. We implement verification systems, anti-bot measures, and 24/7 moderation to keep your members safe.' },
-      { icon: <Lock className="w-12 h-12" />, title: 'NFT & DeFi Project Marketing', description: 'Complete marketing for NFT drops, DeFi protocols, GameFi projects, and metaverse platforms. From whitelist campaigns to mint-day virality, we know how to create FOMO.' },
+      { icon: <GitBranch className="w-12 h-12" />, title: 'Family Tree Building', description: 'We create beautiful, comprehensive family trees that span multiple generations. Our researchers use historical records, census data, and DNA results to build accurate, detailed family connections.' },
+      { icon: <Search className="w-12 h-12" />, title: 'Historical Research', description: 'Our researchers dig deep into archives, census records, immigration documents, and historical databases to uncover your family is story. We specialize in African, Caribbean, and diaspora genealogy.' },
+      { icon: <BookOpen className="w-12 h-12" />, title: 'Family History Book', description: 'Transform your research into a professionally designed family history book. Include photos, documents, stories, and timelines that preserve your legacy for future generations.' },
+      { icon: <MapPin className="w-12 h-12" />, title: 'Origin & Heritage Tours', description: 'Walk in your ancestors footsteps with guided heritage tours to your family origin locations. We plan immersive trips that connect you with your cultural roots and living relatives.' },
+      { icon: <Archive className="w-12 h-12" />, title: 'Document Recovery', description: 'We locate and obtain vital records — birth certificates, marriage licenses, immigration papers, military records, and more — from archives and government offices worldwide.' },
+      { icon: <Users className="w-12 h-12" />, title: 'DNA Analysis Guidance', description: 'Get expert interpretation of your DNA test results. We help you understand ethnicity estimates, find genetic matches, and use DNA evidence to break through brick walls in your research.' },
     ],
-    platforms: [
-      { name: 'Telegram', description: 'Community hubs, announcement channels, and support groups', metric: '2M+ Members' },
-      { name: 'Twitter/X', description: 'Viral threads, Spaces, and KOL partnerships', metric: '50M+ Impressions' },
-      { name: 'Discord', description: 'Server setup, roles, and engagement programs', metric: '100+ Servers' },
-      { name: 'YouTube', description: 'AMA sessions, reviews, and explainer videos', metric: '10M+ Views' },
+    packages: [
+      { name: 'Discover', price: '$500', period: '/project', featured: false, features: ['3-generation family tree', 'Census record search', 'Vital record lookup', 'Digital family tree file', 'Research summary report'], cta: 'Get Started' },
+      { name: 'Heritage', price: '$1,000', period: '/project', featured: true, features: ['Everything in Discover, plus:', '5-generation family tree', 'Immigration record research', 'Military record search', 'DNA analysis guidance', 'Photo/document recovery', 'Family history timeline'], cta: 'Get Started' },
+      { name: 'Legacy', price: '$2,000+', period: 'Custom', featured: false, features: ['Everything in Heritage, plus:', 'Unlimited generations', 'Full family history book', 'Heritage tour planning', 'Living relative search', 'Coat of arms research', 'Ongoing support (1 year)'], cta: 'Contact Us' },
     ],
     caseStudies: [
-      { category: 'TOKEN LAUNCH', title: 'NovaCoin — DeFi Protocol Launch', stats: [{ number: '$4.2M', label: 'Raised' }, { number: '85K', label: 'Telegram Members' }, { number: '12x', label: 'Listing Price' }], quote: 'LaunchNova built our Telegram from zero to 85,000 members in 6 weeks. Our token sold out in 4 minutes and did a 12x on launch day.', quotee: 'Samuel T., CEO', image: '/images/real-client-11.jpg' },
-      { category: 'NFT COLLECTION', title: 'African Giants — 10K NFT Drop', stats: [{ number: '10K', label: 'NFTs' }, { number: 'Sold Out', label: 'In 2 Hours' }, { number: '$1.8M', label: 'Volume' }], quote: 'They created a whitelist campaign that had 40,000 people competing for 10,000 spots. The mint sold out instantly and the floor price held strong.', quotee: 'Chinedu O., Founder', image: '/images/real-client-12.jpg' },
+      { category: 'AFRICAN HERITAGE', title: 'The Okafor Family — Nigerian Roots', stats: [{ number: '7', label: 'Generations' }, { number: '1847', label: 'Earliest Record' }, { number: '340', label: 'Relatives Found' }], quote: 'LaunchNova traced my family back to a village in Enugu State, Nigeria. I discovered my great-great-grandfather was a respected chief. It changed how I see myself.', quotee: 'Chinedu O., Client' },
+      { category: 'CARIBBEAN HERITAGE', title: 'The Williams Family — Jamaican Lineage', stats: [{ number: '6', label: 'Generations' }, { number: '1820', label: 'Earliest Record' }, { number: '200+', label: 'Relatives Found' }], quote: 'I always heard my ancestors came from Ghana. LaunchNova confirmed it through DNA analysis and ship records. They even found the plantation where my family worked.', quotee: 'Patricia W., Client' },
     ],
     faq: [
-      { question: 'How do you grow a Telegram community?', answer: 'We use a combination of organic growth (content, engagement, AMAs, contests), paid promotion (influencer partnerships, cross-promotions), and viral mechanics (airdrops, referral programs, gamification). Every strategy is tailored to your project is goals.' },
-      { question: 'Can you help with a token launch?', answer: 'Absolutely. We handle pre-launch marketing, whitelist campaigns, IDO/ICO promotion, exchange listing support, and post-launch community building. Our team has experience with launches on Ethereum, BSC, Solana, and Layer 2 networks.' },
-      { question: 'How do you prevent scams in our group?', answer: 'We implement multi-layer security: CAPTCHA verification for new members, anti-bot filters, admin impersonation detection, automated scam-link blocking, and 24/7 human moderation. Your community safety is our priority.' },
-      { question: 'What platforms do you support?', answer: 'We specialize in Telegram, Twitter/X, Discord, and YouTube for crypto marketing. We also work with Reddit, Medium, CoinMarketCap, CoinGecko, and crypto PR outlets for broader reach.' },
-      { question: 'How quickly can you grow a community?', answer: 'Typical growth is 5,000-10,000 members in the first month for new projects. Established projects can see 20,000+ in the same timeframe. Speed depends on budget, project appeal, and market conditions.' },
+      { question: 'How far back can you trace my family?', answer: 'Most families can be traced 5-7 generations. For families with African or Caribbean roots, we typically trace back to the mid-1800s. Some European lineages can go back 10+ generations.' },
+      { question: 'Do I need a DNA test?', answer: 'A DNA test is helpful but not required. We can build your family tree using historical records alone. However, DNA testing can confirm connections and reveal ethnic origins that records cannot.' },
+      { question: 'How long does the research take?', answer: 'A Discover package takes 2-3 weeks. Heritage takes 4-6 weeks. Legacy projects with full history books take 8-12 weeks. Complex cases may take longer depending on record availability.' },
+      { question: 'Can you trace African ancestry?', answer: 'Yes, we specialize in African and African diaspora genealogy. We work with DNA results, oral histories, and historical records to connect families with their African origins.' },
+      { question: 'What records do you use?', answer: 'We use census records, birth/marriage/death certificates, immigration records, military records, ship manifests, plantation records, church records, and DNA databases. We access archives in the US, UK, Caribbean, and Africa.' },
     ],
     portfolio: [
-      { image: '/images/portfolio-cf-1.jpg', title: 'NovaCoin DeFi Protocol', category: 'TOKEN LAUNCH', description: 'A decentralized finance protocol launching on BSC. We built their community from scratch, ran their IDO campaign, and sustained post-launch engagement.', metrics: [{ label: 'Members', value: '85K' }, { label: 'Raised', value: '$4.2M' }, { label: 'ROI', value: '12x' }] },
-      { image: '/images/portfolio-bm-1.jpg', title: 'African Giants NFT', category: 'NFT DROP', description: 'A 10,000-piece NFT collection celebrating African culture. Our whitelist campaign generated 40,000 signups and the collection sold out in 2 hours.', metrics: [{ label: 'NFTs', value: '10K' }, { label: 'Signups', value: '40K' }, { label: 'Volume', value: '$1.8M' }] },
-      { image: '/images/portfolio-cf-2.jpg', title: 'MetaVerse Africa', category: 'GAMEFI', description: 'A play-to-earn metaverse game. We grew their Telegram to 120,000 members and ran influencer campaigns across Africa that drove 50,000 game downloads.', metrics: [{ label: 'Members', value: '120K' }, { label: 'Downloads', value: '50K' }, { label: 'DAU', value: '15K' }] },
-      { image: '/images/portfolio-bm-2.jpg', title: 'GreenChain Sustainability', category: 'BLOCKCHAIN', description: 'An eco-friendly blockchain project. We managed their global community, coordinated airdrops to 100,000 wallets, and secured listings on 3 major exchanges.', metrics: [{ label: 'Wallets', value: '100K' }, { label: 'Exchanges', value: '3' }, { label: 'MCap', value: '$50M' }] },
-      { image: '/images/portfolio-cf-3.jpg', title: 'Crypto Academy Africa', category: 'EDUCATION', description: 'An educational platform teaching Africans about crypto. We built a 60,000-member community and ran referral campaigns that enrolled 12,000 students.', metrics: [{ label: 'Members', value: '60K' }, { label: 'Students', value: '12K' }, { label: 'Countries', value: '18' }] },
-      { image: '/images/portfolio-cf-4.jpg', title: 'PayToken Remittance', category: 'DEFI', description: 'A cross-border payment token for Africa. Our marketing reached 5 million people across Telegram and Twitter, driving $2M in pre-sale contributions.', metrics: [{ label: 'Reach', value: '5M' }, { label: 'Pre-sale', value: '$2M' }, { label: 'Holders', value: '25K' }] },
+      { image: '/images/gene-client-1.jpg', title: 'The Johnson Family — Texas Roots', category: 'AMERICAN', description: 'A family seeking to trace their Texas heritage back to slavery era. We uncovered 6 generations of records including freedman papers and land grants.', metrics: [{ label: 'Generations', value: '6' }, { label: 'Year', value: '1865' }, { label: 'Records', value: '45' }] },
+      { image: '/images/gene-client-2.jpg', title: 'The Patel Family — Indian Heritage', category: 'INDIAN', description: 'Tracing lineage from Gujarat, India to East Africa and then to the UK. We connected the family with relatives still living in India they did not know existed.', metrics: [{ label: 'Generations', value: '5' }, { label: 'Countries', value: '3' }, { label: 'Relatives', value: '12' }] },
+      { image: '/images/gene-client-3.jpg', title: 'The Diallo Family — West Africa', category: 'WEST AFRICAN', description: 'A Senegalese-American family using DNA and oral history to trace their Mandinka roots. We identified the specific village and family compound of origin.', metrics: [{ label: 'Generations', value: '8' }, { label: 'DNA', value: '3 tests' }, { label: 'Village', value: 'Found' }] },
+      { image: '/images/gene-client-4.jpg', title: 'The Chen Family — Chinese Ancestry', category: 'CHINESE', description: 'A Chinese-American family creating a comprehensive family history book. We traced 7 generations from Guangdong Province to San Francisco Chinatown.', metrics: [{ label: 'Generations', value: '7' }, { label: 'Year', value: '1882' }, { label: 'Book', value: '300p' }] },
+      { image: '/images/gene-client-5.jpg', title: 'The Santos Family — Brazilian Lineage', category: 'BRAZILIAN', description: 'A Brazilian family exploring their African and Indigenous roots. Our research uncovered Yoruba ancestry and connections to the Quilombo communities.', metrics: [{ label: 'Generations', value: '6' }, { label: 'DNA', value: '4 regions' }, { label: 'Relatives', value: '28' }] },
+      { image: '/images/gene-client-6.jpg', title: 'The Brown Family — UK Heritage', category: 'BRITISH', description: 'An African-Caribbean family in the UK tracing their Windrush generation roots back to Jamaica. We found ship records and connected them with 15 living relatives.', metrics: [{ label: 'Generations', value: '5' }, { label: 'Records', value: '60+' }, { label: 'Relatives', value: '15' }] },
     ],
   },
 }
@@ -404,7 +426,7 @@ export default function Services() {
                 : 'bg-gold-500 text-navy-900 hover:bg-gold-400'
             }`}
           >
-            {service === 'crowdfunding' ? 'Start Your Campaign' : service === 'book-marketing' ? 'Market Your Book' : service === 'resume-writing' ? 'Build Your Resume' : service === 'music-promotion' ? 'Promote Your Music' : service === 'translation' ? 'Start Translating' : 'Grow Your Community'}
+            {service === 'crowdfunding' ? 'Start Your Campaign' : service === 'book-marketing' ? 'Market Your Book' : service === 'resume-writing' ? 'Build Your Resume' : service === 'music-promotion' ? 'Promote Your Music' : service === 'translation' ? 'Start Translating' : 'Trace Your Roots'}
           </Link>
         </div>
       </section>
@@ -413,7 +435,7 @@ export default function Services() {
       <section className="bg-cream-50 py-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <FadeIn>
+            <SectionReveal>
               <h2 className="font-heading font-semibold text-3xl lg:text-4xl text-charcoal mb-6">
                 {data.overview.headline}
               </h2>
@@ -427,14 +449,14 @@ export default function Services() {
                   </div>
                 ))}
               </div>
-            </FadeIn>
-            <FadeIn>
+            </SectionReveal>
+            <SectionReveal>
               <img
                 src={data.image}
                 alt={data.title}
                 className="rounded-2xl shadow-xl w-full object-cover"
               />
-            </FadeIn>
+            </SectionReveal>
           </div>
         </div>
       </section>
@@ -442,32 +464,22 @@ export default function Services() {
       {/* Features */}
       <section className="bg-navy-900 py-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <FadeIn className="text-center mb-16">
+          <SectionReveal className="text-center mb-16">
             <span className="section-label text-gold-400 mb-4 block">OUR APPROACH</span>
             <h2 className="font-heading font-semibold text-3xl lg:text-4xl text-cream-50">
-              {service === 'crowdfunding' ? 'Complete Campaign Management' : service === 'book-marketing' ? 'Complete Book Marketing System' : service === 'resume-writing' ? 'Expert Resume Services' : service === 'music-promotion' ? 'Complete Music Promotion' : service === 'translation' ? 'Professional Translation Services' : 'Web3 Community Growth'}
+              {service === 'crowdfunding' ? 'Complete Campaign Management' : service === 'book-marketing' ? 'Complete Book Marketing System' : service === 'resume-writing' ? 'Expert Resume Services' : service === 'music-promotion' ? 'Complete Music Promotion' : service === 'translation' ? 'Professional Translation Services' : 'Genealogy Research Services'}
             </h2>
-          </FadeIn>
+          </SectionReveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {data.features.map((feature, i) => (
-              <FadeIn key={feature.title}>
-                <motion.div
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-                  className="bg-navy-800 rounded-2xl p-8 h-full cursor-pointer group"
-                >
-                  <motion.div
-                    whileHover={{ rotate: [0, -10, 10, 0], scale: 1.15 }}
-                    transition={{ duration: 0.5 }}
-                    className="text-gold-500 mb-4 inline-block"
-                  >
-                    {feature.icon}
-                  </motion.div>
+              <SectionReveal key={feature.title} className={`stagger-${(i % 3) + 1}`}>
+                <div className="bg-navy-800 rounded-2xl p-8 h-full hover:-translate-y-1 transition-transform">
+                  <div className="text-gold-500 mb-4">{feature.icon}</div>
                   <h3 className="font-heading font-semibold text-xl text-cream-50 mb-3">{feature.title}</h3>
                   <p className="text-cream-100 text-sm leading-relaxed">{feature.description}</p>
-                </motion.div>
-              </FadeIn>
+                </div>
+              </SectionReveal>
             ))}
           </div>
         </div>
@@ -476,7 +488,7 @@ export default function Services() {
       {/* Portfolio / Previous Work */}
       <section className={`${service === 'book-marketing' ? 'bg-cream-50' : 'bg-cream-50'} py-20 lg:py-28`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <FadeIn className="text-center mb-16">
+          <SectionReveal className="text-center mb-16">
             <span className="section-label text-slate mb-4 block">PREVIOUS WORK</span>
             <h2 className="font-heading font-semibold text-3xl lg:text-4xl text-charcoal">
               {service === 'crowdfunding' ? 'Campaigns We\'ve Launched' : service === 'book-marketing' ? 'Books We\'ve Marketed' : 'Clients We\'ve Transformed'}
@@ -484,23 +496,17 @@ export default function Services() {
             <p className="text-lg text-slate mt-4 max-w-xl mx-auto">
               {service === 'crowdfunding' ? 'Real products that exceeded their funding goals through our strategic approach.' : service === 'book-marketing' ? 'Real authors who achieved bestseller status with our marketing expertise.' : 'Real professionals who landed their dream roles with our resume expertise.'}
             </p>
-          </FadeIn>
+          </SectionReveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {data.portfolio.map((item, i) => (
-              <FadeIn key={i}>
-                <motion.div
-                  whileHover={{ y: -6, scale: 1.01 }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 group cursor-pointer"
-                >
+              <SectionReveal key={i} className={`stagger-${(i % 3) + 1}`}>
+                <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow group">
                   <div className="relative overflow-hidden">
-                    <motion.img
-                      whileHover={{ scale: 1.08 }}
-                      transition={{ duration: 0.5 }}
+                    <img
                       src={item.image}
                       alt={item.title}
-                      className="w-full aspect-[16/10] object-cover"
+                      className="w-full aspect-[16/10] object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-3 left-3">
                       <span className="text-[10px] font-semibold tracking-wider uppercase bg-gold-500 text-navy-900 px-2.5 py-1 rounded-full">
@@ -520,8 +526,8 @@ export default function Services() {
                       ))}
                     </div>
                   </div>
-                </motion.div>
-              </FadeIn>
+                </div>
+              </SectionReveal>
             ))}
           </div>
         </div>
@@ -531,69 +537,123 @@ export default function Services() {
       {data.platforms && (
         <section className="bg-cream-50 py-20 lg:py-28">
           <div className="max-w-7xl mx-auto px-6 lg:px-12">
-            <FadeIn className="text-center mb-16">
+            <SectionReveal className="text-center mb-16">
               <h2 className="font-heading font-semibold text-3xl text-charcoal mb-4">Platform Expertise</h2>
               <p className="text-lg text-slate">We specialize in all major crowdfunding platforms</p>
-            </FadeIn>
+            </SectionReveal>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {data.platforms.map((platform, i) => (
-                <FadeIn key={platform.name} className={`stagger-${i + 1}`}>
+                <SectionReveal key={platform.name} className={`stagger-${i + 1}`}>
                   <div className="bg-white border border-cream-100 rounded-xl p-6 text-center">
                     <h3 className="font-heading font-semibold text-lg text-charcoal mb-2">{platform.name}</h3>
                     <p className="text-sm text-slate mb-4">{platform.description}</p>
                     <span className="font-heading font-bold text-2xl text-gold-500">{platform.metric}</span>
                   </div>
-                </FadeIn>
+                </SectionReveal>
               ))}
             </div>
           </div>
         </section>
       )}
 
-      {/* Custom Quote CTA */}
+      {/* Pricing */}
       <section className={`${service === 'book-marketing' ? 'bg-cream-100' : 'bg-navy-800'} py-20 lg:py-28`}>
-        <div className="max-w-4xl mx-auto px-6 lg:px-12 text-center">
-          <FadeIn>
-            <span className={`section-label ${service === 'book-marketing' ? 'text-slate' : 'text-gold-400'} mb-4 block`}>CUSTOM SOLUTIONS</span>
-            <h2 className={`font-heading font-semibold text-3xl lg:text-4xl mb-4 ${service === 'book-marketing' ? 'text-charcoal' : 'text-cream-50'}`}>
-              Every Project is Unique
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <SectionReveal className="text-center mb-16">
+            <span className={`section-label ${service === 'book-marketing' ? 'text-slate' : 'text-gold-400'} mb-4 block`}>
+              {service === 'book-marketing' || service === 'resume-writing' ? 'CHOOSE YOUR PACKAGE' : 'INVESTMENT'}
+            </span>
+            <h2 className={`font-heading font-semibold text-3xl lg:text-4xl ${service === 'book-marketing' ? 'text-charcoal' : 'text-cream-50'}`}>
+              {service === 'crowdfunding' ? 'Choose Your Package' : service === 'book-marketing' ? 'Book Marketing Packages' : service === 'resume-writing' ? 'Investment in Your Career' : service === 'music-promotion' ? 'Choose Your Promotion Plan' : service === 'translation' ? 'Choose Your Translation Plan' : 'Choose Your Research Plan'}
             </h2>
-            <p className={`text-lg mb-8 ${service === 'book-marketing' ? 'text-charcoal/70' : 'text-cream-100'}`}>
-              We do not believe in one-size-fits-all pricing. Tell us about your goals and we will craft a custom proposal tailored to your budget and needs.
-            </p>
-            <Link
-              to="/contact"
-              className={`inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:scale-105 animate-pulse-glow ${
-                service === 'book-marketing'
-                  ? 'bg-navy-900 text-gold-500 hover:bg-navy-800'
-                  : 'bg-gold-500 text-navy-900 hover:bg-gold-400'
-              }`}
-            >
-              Get a Free Quote <ArrowRight className="w-5 h-5" />
-            </Link>
-          </FadeIn>
+          </SectionReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {data.packages.map((pkg, i) => (
+              <SectionReveal key={pkg.name} className={`stagger-${i + 1}`}>
+                <div className={`${
+                  pkg.featured
+                    ? service === 'book-marketing' ? 'bg-navy-800' : 'bg-gold-500'
+                    : service === 'book-marketing' ? 'bg-white border border-cream-200' : 'bg-navy-900'
+                } rounded-2xl p-8 h-full relative`}>
+                  {pkg.featured && (
+                    <span className={`absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-semibold uppercase px-3 py-1 rounded-full ${
+                      service === 'book-marketing' ? 'bg-gold-500 text-navy-900' : 'bg-navy-900 text-gold-500'
+                    }`}>
+                      {service === 'book-marketing' ? 'RECOMMENDED' : 'MOST POPULAR'}
+                    </span>
+                  )}
+                  <p className={`text-sm font-semibold uppercase mb-4 ${
+                    pkg.featured
+                      ? service === 'book-marketing' ? 'text-gold-400' : 'text-navy-900'
+                      : service === 'book-marketing' ? 'text-navy-800' : 'text-gold-400'
+                  }`}>
+                    {pkg.name}
+                  </p>
+                  <div className="mb-6">
+                    <span className={`font-heading font-bold text-4xl ${
+                      pkg.featured
+                        ? service === 'book-marketing' ? 'text-cream-50' : 'text-navy-900'
+                        : service === 'book-marketing' ? 'text-charcoal' : 'text-cream-50'
+                    }`}>
+                      {pkg.price}
+                    </span>
+                    <span className={`text-sm ml-1 ${
+                      pkg.featured
+                        ? service === 'book-marketing' ? 'text-cream-100' : 'text-navy-800'
+                        : service === 'book-marketing' ? 'text-slate' : 'text-slate'
+                    }`}>
+                      {pkg.period}
+                    </span>
+                  </div>
+                  <ul className="space-y-3 mb-8">
+                    {pkg.features.map((f) => (
+                      <li key={f} className={`flex items-start gap-2 text-sm ${
+                        pkg.featured
+                          ? service === 'book-marketing' ? 'text-cream-100' : 'text-navy-900'
+                          : service === 'book-marketing' ? 'text-charcoal' : 'text-cream-100'
+                      }`}>
+                        <CheckCircle className={`w-4 h-4 mt-0.5 flex-shrink-0 ${
+                          pkg.featured
+                            ? service === 'book-marketing' ? 'text-gold-500' : 'text-navy-800'
+                            : 'text-gold-500'
+                        }`} />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <Link
+                    to="/contact"
+                    className={`block text-center py-3 rounded-full font-semibold text-sm transition-colors ${
+                      pkg.featured
+                        ? service === 'book-marketing' ? 'bg-gold-500 text-navy-900 hover:bg-gold-400' : 'bg-navy-900 text-gold-500 hover:bg-navy-800'
+                        : service === 'book-marketing' ? 'border border-navy-800 text-navy-800 hover:bg-navy-800 hover:text-cream-50' : 'border border-gold-500 text-gold-400 hover:bg-gold-500 hover:text-navy-900'
+                    }`}
+                  >
+                    {pkg.cta}
+                  </Link>
+                </div>
+              </SectionReveal>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Case Studies */}
       <section className={`${service === 'book-marketing' ? 'bg-navy-800' : 'bg-cream-50'} py-20 lg:py-28`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <FadeIn className="mb-16">
+          <SectionReveal className="mb-16">
             <span className={`section-label ${service === 'book-marketing' ? 'text-gold-400' : 'text-slate'} mb-4 block`}>SUCCESS STORIES</span>
             <h2 className={`font-heading font-semibold text-3xl lg:text-4xl ${service === 'book-marketing' ? 'text-cream-50' : 'text-charcoal'}`}>
-              {service === 'crowdfunding' ? 'Campaigns That Crushed It' : service === 'book-marketing' ? 'Books That Became Bestsellers' : service === 'resume-writing' ? 'Careers Transformed' : service === 'music-promotion' ? 'Artists We Promoted' : service === 'translation' ? 'Translation Projects Delivered' : 'Communities We Built'}
+              {service === 'crowdfunding' ? 'Campaigns That Crushed It' : service === 'book-marketing' ? 'Books That Became Bestsellers' : service === 'resume-writing' ? 'Careers Transformed' : service === 'music-promotion' ? 'Artists We Promoted' : service === 'translation' ? 'Translation Projects Delivered' : 'Families Reconnected'}
             </h2>
-          </FadeIn>
+          </SectionReveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {data.caseStudies.map((cs, i) => (
-              <FadeIn key={i}>
-                <motion.div
-                  whileHover={{ y: -6, scale: 1.01 }}
-                  transition={{ duration: 0.3 }}
-                  className={`${service === 'book-marketing' ? 'bg-navy-700' : 'bg-white border border-cream-100'} rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 cursor-pointer`}
-                >
+              <SectionReveal key={i} className={`stagger-${i + 1}`}>
+                <div className={`${service === 'book-marketing' ? 'bg-navy-700' : 'bg-white border border-cream-100'} rounded-2xl overflow-hidden`}>
                   <div className="p-8">
                     <span className="text-xs font-semibold text-gold-500 uppercase tracking-wider">{cs.category}</span>
                     <h3 className={`font-heading font-semibold text-xl mt-2 mb-1 ${service === 'book-marketing' ? 'text-cream-50' : 'text-charcoal'}`}>
@@ -609,13 +669,10 @@ export default function Services() {
                       ))}
                     </div>
                     <p className={`italic mb-4 ${service === 'book-marketing' ? 'text-cream-50' : 'text-charcoal'}`}>"{cs.quote}"</p>
-                    <div className="flex items-center gap-3">
-                      <motion.img whileHover={{ scale: 1.15 }} src={cs.image} alt={cs.quotee} className="w-10 h-10 rounded-full object-cover border-2 border-gold-500" />
-                      <p className="text-sm text-gold-500">— {cs.quotee}</p>
-                    </div>
+                    <p className="text-sm text-gold-500">— {cs.quotee}</p>
                   </div>
-                </motion.div>
-              </FadeIn>
+                </div>
+              </SectionReveal>
             ))}
           </div>
         </div>
@@ -624,20 +681,16 @@ export default function Services() {
       {/* FAQ */}
       <section className={`${service === 'book-marketing' || service === 'resume-writing' ? 'bg-cream-50' : 'bg-navy-900'} py-20 lg:py-28`}>
         <div className="max-w-3xl mx-auto px-6 lg:px-12">
-          <FadeIn className="text-center mb-12">
+          <SectionReveal className="text-center mb-12">
             <h2 className={`font-heading font-semibold text-3xl ${service === 'book-marketing' || service === 'resume-writing' ? 'text-charcoal' : 'text-cream-50'}`}>
               Common Questions
             </h2>
-          </FadeIn>
+          </SectionReveal>
 
           <div className="space-y-0">
             {data.faq.map((item, i) => (
-              <FadeIn key={i}>
-                <motion.details
-                  whileHover={{ x: 4 }}
-                  transition={{ duration: 0.2 }}
-                  className={`group border-b ${service === 'book-marketing' || service === 'resume-writing' ? 'border-cream-200' : 'border-navy-800'}`}
-                >
+              <SectionReveal key={i} className={`stagger-${(i % 3) + 1}`}>
+                <details className={`group border-b ${service === 'book-marketing' || service === 'resume-writing' ? 'border-cream-200' : 'border-navy-800'}`}>
                   <summary className={`flex items-center justify-between py-5 cursor-pointer list-none ${service === 'book-marketing' || service === 'resume-writing' ? 'text-charcoal' : 'text-cream-50'}`}>
                     <span className="font-heading font-semibold text-lg pr-4">{item.question}</span>
                     <span className="transition-transform group-open:rotate-180 flex-shrink-0">
@@ -649,8 +702,8 @@ export default function Services() {
                   <p className={`pb-5 ${service === 'book-marketing' || service === 'resume-writing' ? 'text-slate' : 'text-cream-100'}`}>
                     {item.answer}
                   </p>
-                </motion.details>
-              </FadeIn>
+                </details>
+              </SectionReveal>
             ))}
           </div>
         </div>
@@ -659,23 +712,21 @@ export default function Services() {
       {/* CTA Banner */}
       <section className="bg-gold-500 py-20">
         <div className="max-w-4xl mx-auto px-6 lg:px-12 text-center">
-          <FadeIn>
+          <SectionReveal>
             <h2 className="font-heading font-semibold text-3xl lg:text-4xl text-navy-900 mb-4">
-              {service === 'crowdfunding' ? 'Ready to Fund Your Dream?' : service === 'book-marketing' ? 'Ready to Reach More Readers?' : service === 'resume-writing' ? 'Ready to Advance Your Career?' : service === 'music-promotion' ? 'Ready to Get Your Music Heard?' : service === 'translation' ? 'Ready to Go Global?' : 'Ready to Build Your Web3 Empire?'}
+              {service === 'crowdfunding' ? 'Ready to Fund Your Dream?' : service === 'book-marketing' ? 'Ready to Reach More Readers?' : service === 'resume-writing' ? 'Ready to Advance Your Career?' : service === 'music-promotion' ? 'Ready to Get Your Music Heard?' : service === 'translation' ? 'Ready to Go Global?' : 'Ready to Discover Your Roots?'}
             </h2>
             <p className="text-lg text-navy-800 mb-8">
-              {service === 'crowdfunding' ? "Book a free strategy call and learn how we can help you reach — and exceed — your funding goals." : service === 'book-marketing' ? "Let's create a marketing plan that gets your book the attention it deserves." : service === 'resume-writing' ? "Invest in a resume that opens doors. Your dream job is closer than you think." : service === 'music-promotion' ? "Let's get your music in front of the listeners who will love it." : service === 'translation' ? "Break language barriers and connect with audiences worldwide." : "Let's build a community that believes in your project as much as you do."}
+              {service === 'crowdfunding' ? "Book a free strategy call and learn how we can help you reach — and exceed — your funding goals." : service === 'book-marketing' ? "Let's create a marketing plan that gets your book the attention it deserves." : "Invest in a resume that opens doors. Your dream job is closer than you think."}
             </p>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }} transition={{ duration: 0.2 }}>
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 px-8 py-3.5 bg-navy-900 text-gold-500 font-semibold rounded-full hover:bg-navy-800 transition-colors"
-              >
-                {service === 'crowdfunding' ? 'Book Your Free Call' : service === 'book-marketing' ? 'Start Your Book Launch' : service === 'resume-writing' ? 'Get Your Resume' : service === 'music-promotion' ? 'Start Your Music Campaign' : service === 'translation' ? 'Get a Free Quote' : 'Launch Your Community'}
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </motion.div>
-          </FadeIn>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-navy-900 text-gold-500 font-semibold rounded-full hover:bg-navy-800 transition-colors"
+            >
+              {service === 'crowdfunding' ? 'Book Your Free Call' : service === 'book-marketing' ? 'Start Your Book Launch' : service === 'resume-writing' ? 'Get Your Resume' : service === 'music-promotion' ? 'Start Your Music Campaign' : service === 'translation' ? 'Get a Free Quote' : 'Begin Your Journey'}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </SectionReveal>
         </div>
       </section>
     </>
