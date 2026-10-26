@@ -67,8 +67,8 @@ export default defineConfig([
         tsconfigRootDir: import.meta.dirname,
       },
       // other options...
-Deployment verification
     },
   },
 ])
 ```
+Deployment verification
